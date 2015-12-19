@@ -46,7 +46,8 @@ define([], function() {
     };
 
     audio.getFloatFrequency = function() {
-        var floatArray = new Float32Array(fftSize);
+        // The frequency distribution is ~ 1/2 of fast fourier transform size
+        var floatArray = new Float32Array(Math.floor(fftSize / 2));
         analyser.getFloatFrequencyData(floatArray);
         return floatArray;
     };

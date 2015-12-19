@@ -1,27 +1,35 @@
-define(["d3", "audio", "visualisations/waveform"], function(d3, audio, waveform) {
-    var visualiser = {};
+define(["d3", "audio", "visualisations/waveform", "visualisations/frequency"],
+    function(d3, audio, waveform, frequency) {
+        var visualiser = {};
 
-    var svg = d3.select("#svg");
+        var svg = d3.select("#svg");
 
-    var width = document.body.clientWidth;
-    var height = document.body.clientHeight;
+        var width = document.body.clientWidth;
+        var height = document.body.clientHeight;
 
-    svg.attr("width", width);
-    svg.attr("height", height);
+        svg.attr("width", width);
+        svg.attr("height", height);
 
-    svg.select(".waveform").attr("width", width);
-    svg.select(".waveform").attr("height", height);
+        svg.select(".waveform").attr("width", width);
+        svg.select(".waveform").attr("height", height/2);
+        svg.select(".waveform")
+            .attr("transform", "translate(0, " + height / 2 + ")");
 
-    var waveformVisualiser = waveform(svg.select(".waveform"));
+        svg.select(".frequency").attr("width", width);
+        svg.select(".frequency").attr("height", height/2);
 
-    visualiser.visualise = function() {
-        var floatWaveform = audio.getFloatWaveform();
+        var waveformVisualiser = waveform(svg.select(".waveform"));
+        var frequencyVisualiser = frequency(svg.select(".frequency"))
 
-        waveformVisualiser(floatWaveform);
+        visualiser.visualise = function() {
+            var floatWaveform = audio.getFloatWaveform();
+            var frequencyData = audio.getFloatFrequency();
 
-        requestAnimationFrame(visualiser.visualise);
-    };
+            frequencyVisualiser(frequencyData);
+            waveformVisualiser(floatWaveform);
 
-    return visualiser;
+            requestAnimationFrame(visualiser.visualise);
+        };
 
+        return visualiser;
 });
