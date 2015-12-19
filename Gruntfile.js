@@ -2,8 +2,10 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     less: {
-        files: {
-            "build/style.css": "css/style.less"
+        run: {
+            files: {
+                "build/style.css": "css/style.less"
+            }
         }
     },
     copy: {
@@ -21,7 +23,7 @@ module.exports = function(grunt) {
         },
         default: {
             files: ['css/**/*.less', 'js/**/*.js', 'html/**/*.html'],
-            tasks: ['less', 'copy:main']
+            tasks: ['less:run', 'copy:main']
         }
     }
   });
@@ -30,6 +32,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['less', 'copy:main', 'watch:default']);
+  grunt.registerTask('default', ['less:run', 'copy:main', 'watch:default']);
 
 };
