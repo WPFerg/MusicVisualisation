@@ -3,14 +3,10 @@ define(["knockout"], function(ko) {
 
     var ViewModel = function ViewModel() {
         this.dragging = ko.observable(false);
-        this.playingSong = ko.observable("");
-        this.backgroundColour = ko.observable("");
+        this.playingSong = ko.observable(false);
+        this.loadingSongContents = ko.observable(false);
         this.onFiles = noop;
     };
-
-    ViewModel.prototype.setBackgroundColour = function(colour) {
-        this.backgroundColour(colour);
-    }.bind(this);
 
     ViewModel.prototype.onDrag = function(event) {
         console.log("Drag");
@@ -21,14 +17,14 @@ define(["knockout"], function(ko) {
     };
 
     ViewModel.prototype.onDrop = function(event) {
-        console.log("Drop");
         event.preventDefault();
         var dtFiles = event.dataTransfer.files;
         var files = [];
         for (var i = 0; i < dtFiles.length; i++) {
             files.push(dtFiles[i]);
         }
-        console.log(files);
+        this.dragging(false);
+        this.loadingSongContents(true);
         this.onFiles(files);
     };
 

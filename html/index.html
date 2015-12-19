@@ -14,6 +14,17 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <section class="overlay" data-bind="visible: !playingSong()">
+            <h1 data-bind="visible: !dragging() && !loadingSongContents()">
+                Drag MP3 Files here!
+            </h1>
+            <h1 data-bind="visible: dragging">
+                Okay, now drop them!
+            </h1>
+            <h1 data-bind="visible: loadingSongContents">
+                Hold on, the file is loading.
+            </h1>
+        </section>
         <svg id="svg">
             <g class="background"><rect></rect></g>
             <g class="frequency"></g>
