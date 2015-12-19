@@ -1,5 +1,9 @@
 define(["d3", "audio", "visualisations/waveform", "visualisations/frequency"],
     function(d3, audio, waveform, frequency) {
+        const fftSize = 2048;
+        var waveformArray = new Float32Array(fftSize);
+        var frequencyArray = new Float32Array(fftSize / 2);
+
         var visualiser = {};
 
         var svg = d3.select("#svg");
@@ -22,11 +26,11 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency"],
         var frequencyVisualiser = frequency(svg.select(".frequency"))
 
         visualiser.visualise = function() {
-            var floatWaveform = audio.getFloatWaveform();
-            var frequencyData = audio.getFloatFrequency();
+            audio.getFloatWaveform(waveformArray);
+            audio.getFloatFrequency(frequencyArray);
 
-            frequencyVisualiser(frequencyData);
-            waveformVisualiser(floatWaveform);
+            frequencyVisualiser(frequencyArray);
+            waveformVisualiser(waveformArray);
 
             requestAnimationFrame(visualiser.visualise);
         };
