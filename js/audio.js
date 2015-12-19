@@ -39,15 +39,19 @@ define([], function() {
         };
     };
 
-    audio.getFloatWaveform = function() {
-        var floatArray = new Float32Array(fftSize);
+    audio.getFloatWaveform = function(floatArray) {
+        if (!arguments.length) {
+            floatArray = new Float32Array(fftSize);
+        }
         analyser.getFloatTimeDomainData(floatArray);
         return floatArray;
     };
 
-    audio.getFloatFrequency = function() {
-        // The frequency distribution is ~ 1/2 of fast fourier transform size
-        var floatArray = new Float32Array(Math.floor(fftSize / 2));
+    audio.getFloatFrequency = function(floatArray) {
+        if (!arguments.length) {
+            // The frequency distribution is ~ 1/2 of fast fourier transform size
+            floatArray = new Float32Array(Math.floor(fftSize / 2));
+        }
         analyser.getFloatFrequencyData(floatArray);
         return floatArray;
     };
