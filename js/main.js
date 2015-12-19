@@ -3,7 +3,11 @@ require(["knockout", "viewModel", "audio", "visualiser"], function(ko, viewModel
     // Link up viewModel with audio/visualiser
 
     viewModel.onFiles = function(files) {
-        audio.playFile(files[0], visualiser.visualise);
+        audio.playFile(files[0], function() {
+            viewModel.loadingSongContents(false);
+            viewModel.playingSong(true);
+            visualiser.visualise();
+        });
     };
 
     document.body.addEventListener("dragover", viewModel.onDrag.bind(viewModel));
