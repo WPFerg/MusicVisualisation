@@ -1,6 +1,10 @@
 define([], function() {
     return function(selector) {
-        const numberOfBars = 250;
+
+        var width = selector.attr("width");
+        var height = selector.attr("height");
+        const numberOfBars = Math.floor(width / 10);
+
         var xScale = d3.scale.linear()
             .range([0, selector.attr("width")])
             .domain([0, numberOfBars]);
@@ -15,9 +19,6 @@ define([], function() {
             var rect = selector.selectAll("rect")
                 .data(aggregatedData);
 
-            var width = selector.attr("width");
-            var height = selector.attr("height");
-
             rect.enter()
                 .append("rect")
                 .attr("x", function(d, i) {
@@ -27,9 +28,13 @@ define([], function() {
                     return selector.attr("width") / numberOfBars;
                 });
 
-            rect.attr("height", yScale)
+            rect.attr("height", function(d) {
+                    var rectHeight = yScale(d);
+                    return rectHeight > 0 ? rectHeight : 0;
+                })
                 .attr("y", function(d) {
-                    return height - yScale(d);
+                    var rectHeight = yScale(d);
+                    return height - (rectHeight > 0 ? rectHeight : 0);
                 });
         };
 
