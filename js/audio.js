@@ -17,12 +17,10 @@ define([], function() {
     };
 
     audio.playBuffer = function(buffer, callback) {
-        audio.stop();
-        sourceNode = ctx.createBufferSource();
-        sourceNode.connect(analyser);
-        sourceNode.onended = audio.stop;
-
         ctx.decodeAudioData(buffer, function(audioData) {
+            sourceNode = ctx.createBufferSource();
+            sourceNode.connect(analyser);
+            sourceNode.onended = audio.stop;
             sourceNode.buffer = audioData;
             sourceNode.start(0);
             if (callback) {
@@ -32,6 +30,7 @@ define([], function() {
     };
 
     audio.playFile = function(file, callback) {
+        audio.stop();
         var reader = new FileReader();
 
         reader.readAsArrayBuffer(file);
