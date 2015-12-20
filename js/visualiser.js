@@ -26,13 +26,15 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency"],
         var frequencyVisualiser = frequency(svg.select(".frequency"))
 
         visualiser.visualise = function() {
-            audio.getFloatWaveform(waveformArray);
-            audio.getFloatFrequency(frequencyArray);
+            if (audio.isPlaying()) {
+                audio.getFloatWaveform(waveformArray);
+                audio.getFloatFrequency(frequencyArray);
 
-            frequencyVisualiser(frequencyArray);
-            waveformVisualiser(waveformArray);
+                frequencyVisualiser(frequencyArray);
+                waveformVisualiser(waveformArray);
 
-            requestAnimationFrame(visualiser.visualise);
+                requestAnimationFrame(visualiser.visualise);
+            }
         };
 
         return visualiser;

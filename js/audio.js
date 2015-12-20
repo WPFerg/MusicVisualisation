@@ -20,6 +20,7 @@ define([], function() {
         audio.stop();
         sourceNode = ctx.createBufferSource();
         sourceNode.connect(analyser);
+        sourceNode.onended = audio.stop;
 
         ctx.decodeAudioData(buffer, function(audioData) {
             sourceNode.buffer = audioData;
@@ -37,6 +38,10 @@ define([], function() {
         reader.onloadend = function () {
             audio.playBuffer(reader.result, callback);
         };
+    };
+
+    audio.isPlaying = function() {
+        return !!sourceNode;
     };
 
     audio.getFloatWaveform = function(floatArray) {
