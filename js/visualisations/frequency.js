@@ -3,7 +3,7 @@ define([], function() {
 
         var width = selector.attr("width");
         var height = selector.attr("height");
-        const numberOfBars = Math.floor(width / 10);
+        const numberOfBars = Math.floor(width / 5);
 
         var xScale = d3.scale.linear()
             .range([0, selector.attr("width")])
