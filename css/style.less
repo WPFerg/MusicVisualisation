@@ -29,8 +29,24 @@ html {
 
 svg {
     path {
-        stroke: black;
+        stroke: white;
         stroke-width: 2;
         fill: none;
+    }
+    .frequency {
+        rect {
+            fill: white;
+        }
+    }
+
+    &.light {
+        path {
+            stroke: black;
+        }
+        .frequency {
+            rect {
+                fill: black;
+            }
+        }
     }
 }
