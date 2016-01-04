@@ -11,6 +11,8 @@ define(["knockout"], function(ko) {
         this.errorText = ko.observable();
         this.fileList = ko.observableArray([]);
         this.onFiles = noop;
+
+        this.pulloutVisible = ko.observable(true);
     };
 
     ViewModel.prototype.onDrag = function(event) {
@@ -55,6 +57,10 @@ define(["knockout"], function(ko) {
     ViewModel.prototype.errorDecoding = function() {
         this.reset();
         this.errorText("There was an error decoding the file you dropped.");
+    };
+
+    ViewModel.prototype.togglePullout = function() {
+        this.pulloutVisible(!this.pulloutVisible());
     };
 
     return new ViewModel();

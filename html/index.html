@@ -34,6 +34,30 @@
                 </ul>
             </div>
         </section>
+        <div class="pullout-icon" data-bind="click: togglePullout">
+            open
+        </div>
+        <section class="pullout" data-bind="css: {hidden: !pulloutVisible()}">
+            <div class="close">
+                <a data-bind="click: togglePullout">x</a>
+            </div>
+
+            <div class="container">
+                <div class="files">
+                    <h4>Files:</h4>
+                    <ul data-bind="foreach: fileList()">
+                        <li data-bind="text: $data"></li>
+                    </ul>
+                    <span data-bind="visible: fileList().length === 0">
+                        There are no files in the playing queue.
+                    </span>
+                </div>
+
+                <div class="drag-drop-message">
+                    Drag and drop audio files to add them to the queue.
+                </div>
+            </div>
+        </section>
         <svg id="svg">
             <g class="background"><rect></rect></g>
             <g class="frequency"></g>
