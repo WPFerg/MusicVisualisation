@@ -5,12 +5,15 @@ define(["knockout"], function(ko) {
         this.files = ko.observableArray([]);
         this.files.subscribe(this.listFiles.bind(this));
 
-        this.dragging = ko.observable(false);
         this.playingSong = ko.observable(false);
+        this.playingSong.subscribe(this.onPlay.bind(this));
+
+        this.dragging = ko.observable(false);
         this.loadingSongContents = ko.observable(false);
         this.errorText = ko.observable();
         this.fileList = ko.observableArray([]);
         this.onFiles = noop;
+        this.onRemoveFile = noop;
 
         this.pulloutVisible = ko.observable(true);
     };
@@ -42,7 +45,6 @@ define(["knockout"], function(ko) {
         this.errorText("");
         this.dragging(false);
         this.loadingSongContents(false);
-        this.fileList([]);
     };
 
     ViewModel.prototype.listFiles = function() {
@@ -61,6 +63,16 @@ define(["knockout"], function(ko) {
 
     ViewModel.prototype.togglePullout = function() {
         this.pulloutVisible(!this.pulloutVisible());
+    };
+
+    ViewModel.prototype.removeFile = function(i) {
+        this.onRemoveFile(i());
+    };
+
+    ViewModel.prototype.onPlay = function(isPlaying) {
+        if (isPlaying) {
+            this.pulloutVisible(false);
+        }
     };
 
     return new ViewModel();

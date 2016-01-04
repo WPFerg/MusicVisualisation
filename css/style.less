@@ -70,6 +70,20 @@ html {
         li {
             margin: 0.2em 0;
             list-style: none;
+
+            .file-name {
+                display: inline-block;
+                white-space: nowrap;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                width: calc(90%);
+            }
+            .file-remove {
+                display: inline-block;
+                overflow: hidden;
+                cursor: pointer;
+                width: 10px;
+            }
         }
     }
 

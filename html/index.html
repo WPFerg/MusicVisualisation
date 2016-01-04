@@ -44,9 +44,12 @@
 
             <div class="container">
                 <div class="files">
-                    <h4>Files:</h4>
+                    <h4>Queue</h4>
                     <ul data-bind="foreach: fileList()">
-                        <li data-bind="text: $data"></li>
+                        <li>
+                            <span class="file-name" data-bind="text: $data"></span>
+                            <span class="file-remove" data-bind="click: $parent.removeFile.bind($parent, $index)">x</span>
+                        </li>
                     </ul>
                     <span data-bind="visible: fileList().length === 0">
                         There are no files in the playing queue.
