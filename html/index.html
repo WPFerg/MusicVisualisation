@@ -24,6 +24,15 @@
             <h1 data-bind="visible: loadingSongContents">
                 Hold on, the file is loading.
             </h1>
+            <h1 data-bind="visible: errorText, text: errorText">
+                There's been an error.
+            </h1>
+            <div data-bind="visible: fileList().length > 0">
+                <strong>Files:</strong>
+                <ul data-bind="foreach: fileList()">
+                    <li data-bind="text: $data"></li>
+                </ul>
+            </div>
         </section>
         <svg id="svg">
             <g class="background"><rect></rect></g>

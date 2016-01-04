@@ -17,15 +17,15 @@ define([], function() {
         }
     };
 
-    audio.playBuffer = function(buffer, callback) {
+    audio.playBuffer = function(buffer, successCallback) {
         ctx.decodeAudioData(buffer, function(audioData) {
             sourceNode = ctx.createBufferSource();
             sourceNode.connect(analyser);
             sourceNode.onended = audio.stop;
             sourceNode.buffer = audioData;
             sourceNode.start(0);
-            if (callback) {
-                callback();
+            if (successCallback) {
+                successCallback();
             }
         });
     };
