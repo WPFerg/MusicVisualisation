@@ -1,10 +1,11 @@
 define([], function() {
-    const fftSize = 2048;
-
     var ctx = new AudioContext();
     var analyser = ctx.createAnalyser();
     var sourceNode;
     analyser.connect(ctx.destination);
+
+    const fftSize = analyser.fftSize;
+    const frequencyBinCount = analyser.frequencyBinCount;
 
     var audio = {};
 
@@ -53,12 +54,14 @@ define([], function() {
 
     audio.getFloatFrequency = function(floatArray) {
         if (!arguments.length) {
-            // The frequency distribution is ~ 1/2 of fast fourier transform size
-            floatArray = new Float32Array(Math.floor(fftSize / 2));
+            floatArray = new Float32Array(frequencyBinCount);
         }
         analyser.getFloatFrequencyData(floatArray);
         return floatArray;
     };
+
+    audio.fftSize = fftSize;
+    audio.frequencyBinCount = frequencyBinCount;
 
     return audio;
 });
