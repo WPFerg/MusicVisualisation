@@ -35,6 +35,8 @@ define(["knockout"], function(ko) {
 
     ViewModel.prototype.reset = function() {
         this.errorText("");
+        this.dragging(false);
+        this.loadingSongContents(false);
         this.fileList([]);
     };
 
@@ -45,12 +47,11 @@ define(["knockout"], function(ko) {
             return fileExtRemovedChunks.join(".");
         });
         this.fileList(fileNames);
-        debugger;
     };
 
     ViewModel.prototype.errorDecoding = function() {
+        this.reset();
         this.errorText("There was an error decoding the file you dropped.");
-        console.log(arguments);
     };
 
     return new ViewModel();

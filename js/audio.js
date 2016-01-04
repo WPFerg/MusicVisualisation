@@ -17,27 +17,29 @@ define([], function() {
         }
     };
 
-    audio.playBuffer = function(buffer, successCallback) {
-        ctx.decodeAudioData(buffer, function(audioData) {
-            sourceNode = ctx.createBufferSource();
-            sourceNode.connect(analyser);
-            sourceNode.onended = audio.stop;
-            sourceNode.buffer = audioData;
-            sourceNode.start(0);
-            if (successCallback) {
-                successCallback();
-            }
+    audio.playBuffer = function(buffer) {
+        return new Promise(function(resolve, reject) {
+            ctx.decodeAudioData(buffer, function(audioData) {
+                sourceNode = ctx.createBufferSource();
+                sourceNode.connect(analyser);
+                sourceNode.onended = audio.stop;
+                sourceNode.buffer = audioData;
+                sourceNode.start(0);
+                resolve();
+            }, reject);
         });
     };
 
-    audio.playFile = function(file, callback) {
+    audio.playFile = function(file) {
         audio.stop();
-        var reader = new FileReader();
+        return new Promise(function(resolve, reject) {
+            var reader = new FileReader();
 
-        reader.readAsArrayBuffer(file);
-        reader.onloadend = function () {
-            audio.playBuffer(reader.result, callback);
-        };
+            reader.readAsArrayBuffer(file);
+            reader.onloadend = function() {
+                audio.playBuffer(reader.result).then(resolve, reject);
+            };
+        });
     };
 
     audio.isPlaying = function() {
