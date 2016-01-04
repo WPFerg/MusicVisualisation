@@ -35,7 +35,11 @@ define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualis
                 viewModel.loadingSongContents(false);
                 viewModel.playingSong(true);
                 visualiser.visualise();
-            }, viewModel.errorDecoding.bind(viewModel));
+            },
+            function() {
+                viewModel.errorDecoding.call(viewModel);
+                fileManipulator.remove(0);
+            });
         }
     };
 
