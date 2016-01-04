@@ -4,29 +4,35 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
         var frequencyArray = new Float32Array(audio.frequencyBinCount);
 
         var visualiser = {};
+        var waveformVisualiser;
+        var frequencyVisualiser;
+        var backgroundVisualiser;
 
-        var svg = d3.select("#svg");
+        function initialise() {
+            var svg = d3.select("#svg");
 
-        var width = document.body.clientWidth;
-        var height = document.body.clientHeight;
+            var width = window.innerWidth || document.body.offsetWidth;
+            var height = window.innerHeight || document.body.offsetHeight;
 
-        svg.attr("width", width);
-        svg.attr("height", height);
+            svg.attr("width", width);
+            svg.attr("height", height);
 
-        svg.select(".waveform").attr("width", width);
-        svg.select(".waveform").attr("height", height/2);
-        svg.select(".waveform")
-            .attr("transform", "translate(0, " + height / 2 + ")");
+            svg.select(".waveform").attr("width", width);
+            svg.select(".waveform").attr("height", height/2);
+            svg.select(".waveform")
+                .attr("transform", "translate(0, " + height / 2 + ")");
 
-        svg.select(".frequency").attr("width", width);
-        svg.select(".frequency").attr("height", height/2);
+            svg.select(".frequency").attr("width", width);
+            svg.select(".frequency").attr("height", height/2);
 
-        svg.select(".background").attr("width", width);
-        svg.select(".background").attr("height", height);
+            svg.select(".background").attr("width", width);
+            svg.select(".background").attr("height", height);
 
-        var waveformVisualiser = waveform(svg.select(".waveform"), audio.fftSize);
-        var frequencyVisualiser = frequency(svg.select(".frequency"));
-        var backgroundVisualiser = background(svg.select(".background"), svg);
+            // Recreate the visualisers on each resize (no major difference to calling a resize funct)
+            waveformVisualiser = waveform(svg.select(".waveform"), audio.fftSize);
+            frequencyVisualiser = frequency(svg.select(".frequency"));
+            backgroundVisualiser = background(svg.select(".background"), svg);
+        }
 
         visualiser.visualise = function() {
             if (audio.isPlaying()) {
@@ -40,6 +46,10 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
                 requestAnimationFrame(visualiser.visualise);
             }
         };
+
+        visualiser.onResize = initialise;
+
+        initialise();
 
         return visualiser;
 });
