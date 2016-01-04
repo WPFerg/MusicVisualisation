@@ -2,6 +2,7 @@ require(["knockout", "viewModel", "audio", "files", "visualiser"], function(ko, 
 
     // Link up viewModel with audio/visualiser
     viewModel.onFiles = files.add;
+    viewModel.onRemoveFile = files.remove;
     audio.onEnded = files.onEnded;
 
     document.body.addEventListener("dragover", viewModel.onDrag.bind(viewModel));
