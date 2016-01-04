@@ -3,6 +3,7 @@ define([], function() {
 
     var ctx = new AudioContext();
     var analyser = ctx.createAnalyser();
+    var audioElement;
     var sourceNode;
     analyser.connect(ctx.destination);
 
@@ -13,35 +14,28 @@ define([], function() {
 
     audio.stop = function() {
         if (sourceNode) {
-            sourceNode.stop(0);
             sourceNode.disconnect();
             sourceNode = null;
+            audioElement.pause();
+            URL.revokeObjectURL(audioElement.src);
+            audioElement = null;
             audio.onEnded();
         }
-    };
-
-    audio.playBuffer = function(buffer) {
-        return new Promise(function(resolve, reject) {
-            ctx.decodeAudioData(buffer, function(audioData) {
-                sourceNode = ctx.createBufferSource();
-                sourceNode.connect(analyser);
-                sourceNode.onended = audio.stop;
-                sourceNode.buffer = audioData;
-                sourceNode.start(0);
-                resolve();
-            }, reject);
-        });
     };
 
     audio.playFile = function(file) {
         audio.stop();
         return new Promise(function(resolve, reject) {
-            var reader = new FileReader();
+            audioElement = document.createElement('audio');
+            audioElement.src = URL.createObjectURL(file);
+            sourceNode = ctx.createMediaElementSource(audioElement);
+            sourceNode.onended = audio.stop;
+            sourceNode.connect(analyser);
 
-            reader.readAsArrayBuffer(file);
-            reader.onloadend = function() {
-                audio.playBuffer(reader.result).then(resolve, reject);
-            };
+            audioElement.addEventListener('playing', resolve);
+            audioElement.addEventListener('error', reject);
+
+            audioElement.play();
         });
     };
 
