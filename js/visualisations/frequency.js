@@ -13,6 +13,9 @@ define([], function() {
             .range([0, selector.attr("height")])
             .domain([-200, 0]);
 
+        // Remove any rects already in the selector
+        selector.selectAll("rect").remove();
+
         return function(data) {
             var aggregatedData = aggregate(data);
 
