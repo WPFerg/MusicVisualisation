@@ -1,10 +1,10 @@
 define([], function() {
     return function(selector, svg) {
         var scale = d3.scale.linear()
-            .range([0, 100])
+            .range([25, 75])
             .domain([-256, 0]);
         var hueScale = d3.scale.linear()
-            .range([360, 0])
+            .range([250, 200])
             .domain([-120, -50]);
 
         selector.select("rect")
@@ -12,7 +12,7 @@ define([], function() {
             .attr("height", selector.attr("height"));
 
         var lightModeDebouncer = debouncer(function(h, s, l) {
-            if (h < 180 && s > 50 && l > 50) {
+            if (l > 50) {
                 svg.attr("class", "light");
             } else {
                 svg.attr("class", "dark");
