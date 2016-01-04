@@ -1,4 +1,6 @@
 define([], function() {
+    var noop = function(){};
+
     var ctx = new AudioContext();
     var analyser = ctx.createAnalyser();
     var sourceNode;
@@ -14,6 +16,7 @@ define([], function() {
             sourceNode.stop(0);
             sourceNode.disconnect();
             sourceNode = null;
+            audio.onEnded();
         }
     };
 
@@ -61,6 +64,8 @@ define([], function() {
         analyser.getFloatFrequencyData(floatArray);
         return floatArray;
     };
+
+    audio.onEnded = noop;
 
     audio.fftSize = fftSize;
     audio.frequencyBinCount = frequencyBinCount;
