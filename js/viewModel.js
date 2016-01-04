@@ -5,11 +5,13 @@ define(["knockout"], function(ko) {
         this.dragging = ko.observable(false);
         this.playingSong = ko.observable(false);
         this.loadingSongContents = ko.observable(false);
+        this.errorText = ko.observable();
+        this.fileList = ko.observableArray([]);
         this.onFiles = noop;
     };
 
     ViewModel.prototype.onDrag = function(event) {
-        console.log("Drag");
+        this.reset();
         this.dragging(true);
         event.preventDefault();
         event.dataTransfer.dropEffect = "move";
@@ -24,8 +26,31 @@ define(["knockout"], function(ko) {
             files.push(dtFiles[i]);
         }
         this.dragging(false);
-        this.loadingSongContents(true);
-        this.onFiles(files);
+        if (files.length) {
+            this.loadingSongContents(true);
+            this.listFiles(files);
+            this.onFiles(files);
+        }
+    };
+
+    ViewModel.prototype.reset = function() {
+        this.errorText("");
+        this.fileList([]);
+    };
+
+    ViewModel.prototype.listFiles = function(files) {
+        var fileNames = files.map(function(file) {
+            var dotSeperatedChunks = file.name.split(".");
+            var fileExtRemovedChunks = dotSeperatedChunks.slice(0, dotSeperatedChunks.length - 1);
+            return fileExtRemovedChunks.join(".");
+        });
+        this.fileList(fileNames);
+        debugger;
+    };
+
+    ViewModel.prototype.errorDecoding = function() {
+        this.errorText("There was an error decoding the file you dropped.");
+        console.log(arguments);
     };
 
     return new ViewModel();
