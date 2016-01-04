@@ -1,6 +1,6 @@
 define([], function() {
-    return function(selector) {
-        const fftSize = 2048;
+    return function(selector, fftSize) {
+
         var xScale = d3.scale.linear()
             .range([0, selector.attr("width")])
             .domain([0, fftSize]);

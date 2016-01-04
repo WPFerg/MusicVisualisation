@@ -1,8 +1,7 @@
 define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "visualisations/background"],
     function(d3, audio, waveform, frequency, background) {
-        const fftSize = 2048;
-        var waveformArray = new Float32Array(fftSize);
-        var frequencyArray = new Float32Array(fftSize / 2);
+        var waveformArray = new Float32Array(audio.fftSize);
+        var frequencyArray = new Float32Array(audio.frequencyBinCount);
 
         var visualiser = {};
 
@@ -25,7 +24,7 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
         svg.select(".background").attr("width", width);
         svg.select(".background").attr("height", height);
 
-        var waveformVisualiser = waveform(svg.select(".waveform"));
+        var waveformVisualiser = waveform(svg.select(".waveform"), audio.fftSize);
         var frequencyVisualiser = frequency(svg.select(".frequency"));
         var backgroundVisualiser = background(svg.select(".background"), svg);
 
