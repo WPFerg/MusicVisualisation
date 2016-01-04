@@ -1,26 +1,8 @@
-require(["knockout", "viewModel", "audio", "visualiser"], function(ko, viewModel, audio, visualiser) {
+require(["knockout", "viewModel", "audio", "files"], function(ko, viewModel, audio, files) {
 
     // Link up viewModel with audio/visualiser
-    var files = [];
-    viewModel.onFiles = function(droppedFiles) {
-        files = droppedFiles;
-        playMostRecent();
-    };
-
-    audio.onEnded = function() {
-        files.shift();
-        playMostRecent();
-    };
-
-    function playMostRecent() {
-        viewModel.playingSong(false);
-        viewModel.listFiles.call(viewModel, files);
-        audio.playFile(files[0]).then(function() {
-            viewModel.loadingSongContents(false);
-            viewModel.playingSong(true);
-            visualiser.visualise();
-        }, viewModel.errorDecoding.bind(viewModel));
-    }
+    viewModel.onFiles = files.add;
+    audio.onEnded = files.onEnded;
 
     document.body.addEventListener("dragover", viewModel.onDrag.bind(viewModel));
     document.body.addEventListener("dragenter", viewModel.onDrag.bind(viewModel));
