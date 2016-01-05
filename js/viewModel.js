@@ -8,6 +8,9 @@ define(["knockout"], function(ko) {
         this.playingSong = ko.observable(false);
         this.playingSong.subscribe(this.onPlay.bind(this));
 
+        this.playProgress = ko.observable("0:00");
+        this.playDuration = ko.observable("0:00");
+
         this.dragging = ko.observable(false);
         this.loadingSongContents = ko.observable(false);
         this.errorText = ko.observable();
@@ -75,5 +78,20 @@ define(["knockout"], function(ko) {
         }
     };
 
+    ViewModel.prototype.setProgress = function(progress) {
+        this.playProgress(timeFormat(progress));
+    };
+
+    ViewModel.prototype.setDuration = function(time) {
+        this.playDuration(timeFormat(time));
+    };
+
     return new ViewModel();
+
+    function timeFormat(s) {
+        var seconds = Math.floor(s % 60);
+        var formattedSeconds = (seconds < 10) ? ("0" + seconds) : seconds;
+        var minutes = Math.floor(s / 60);
+        return minutes + ":" + formattedSeconds;
+    }
 });

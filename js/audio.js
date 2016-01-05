@@ -60,6 +60,14 @@ define([], function() {
         return floatArray;
     };
 
+    audio.getProgress = function() {
+        return audioElement.currentTime;
+    };
+
+    audio.getDuration = function() {
+        return audioElement.duration;
+    };
+
     audio.onEnded = noop;
 
     audio.fftSize = fftSize;

@@ -5,6 +5,9 @@ require(["knockout", "viewModel", "audio", "files", "visualiser"], function(ko, 
     viewModel.onRemoveFile = files.remove;
     audio.onEnded = files.onEnded;
 
+    visualiser.updateDuration = viewModel.setDuration.bind(viewModel);
+    visualiser.updateProgress = viewModel.setProgress.bind(viewModel);
+
     document.body.addEventListener("dragover", viewModel.onDrag.bind(viewModel));
     document.body.addEventListener("dragenter", viewModel.onDrag.bind(viewModel));
     document.body.addEventListener("drop", viewModel.onDrop.bind(viewModel));
