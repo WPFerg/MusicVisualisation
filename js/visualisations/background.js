@@ -1,7 +1,7 @@
 define([], function() {
     return function(selector, svg) {
         var scale = d3.scale.linear()
-            .range([40, 75])
+            .range([20, 90])
             .domain([-256, 0]);
         var hueScale = d3.scale.linear()
             .range([250, 200])
