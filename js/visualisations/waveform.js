@@ -1,12 +1,16 @@
 define([], function() {
     return function(selector, fftSize) {
 
+        var width = selector.attr("width");
+        var height = selector.attr("height");
+        var numberOfPoints = Math.ceil(width / 2);
+
         var xScale = d3.scale.linear()
-            .range([0, selector.attr("width")])
-            .domain([0, fftSize]);
+            .range([0, width])
+            .domain([0, numberOfPoints]);
 
         var yScale = d3.scale.linear()
-            .range([selector.attr("height"), 0])
+            .range([height, 0])
             .domain([-1, 1]);
 
         var line = d3.svg.line()
@@ -15,8 +19,17 @@ define([], function() {
 
         return function(data) {
             selector.select("path")
-                .datum(data)
+                .datum(subsample(data))
                 .attr("d", line);
         };
+
+        function subsample(data) {
+            var subsampledData = new Float32Array(numberOfPoints);
+
+            for (var i = 0; i < numberOfPoints; i++) {
+                subsampledData[i] = data[Math.floor(i / numberOfPoints * data.length)];
+            }
+            return subsampledData;
+        }
     };
 });
