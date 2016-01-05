@@ -1,5 +1,6 @@
 define([], function() {
     var noop = function(){};
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
     var ctx = new AudioContext();
     var analyser = ctx.createAnalyser();
