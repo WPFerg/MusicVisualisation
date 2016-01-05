@@ -11,7 +11,7 @@ define([], function() {
 
         var yScale = d3.scale.linear()
             .range([0, selector.attr("height")])
-            .domain([-200, 0]);
+            .domain([-128, 0]);
 
         // Remove any rects already in the selector
         selector.selectAll("rect").remove();
@@ -30,7 +30,7 @@ define([], function() {
             var aggregatedData = aggregate(data);
 
             // Set the transform to force the scaleY
-            selector.attr("style", "transform-origin: center; transform: scaleY(-1);");
+            selector.attr("style", "transform-origin: " + (width / 2) + "px " + (height / 2) + "px; transform: scaleY(-1);");
 
             var rect = selector.selectAll("rect.frequency-bar")
                 .data(aggregatedData);
@@ -48,7 +48,7 @@ define([], function() {
 
             rect.attr("height", function(d) {
                     var rectHeight = yScale(d);
-                    return rectHeight > 0 ? rectHeight : 0;
+                    return rectHeight > 1 ? rectHeight : 1;
                 });
         };
 
