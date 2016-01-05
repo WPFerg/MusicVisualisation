@@ -118,6 +118,11 @@ svg {
     .frequency {
         rect {
             fill: white;
+
+            &.background {
+                fill: none;
+                stroke: none;
+            }
         }
     }
 
@@ -127,7 +132,9 @@ svg {
         }
         .frequency {
             rect {
-                fill: black;
+                &.frequency-bar {
+                    fill: black;
+                }
             }
         }
     }

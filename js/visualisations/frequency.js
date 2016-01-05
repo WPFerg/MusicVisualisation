@@ -16,10 +16,23 @@ define([], function() {
         // Remove any rects already in the selector
         selector.selectAll("rect").remove();
 
+        // Add a transparent rect so scaleY scales the appropriate height
+        selector.append("rect")
+            .attr("class", "background")
+            .attr({
+                x: 0,
+                y: 0,
+                width: width,
+                height: height
+            });
+
         return function(data) {
             var aggregatedData = aggregate(data);
 
-            var rect = selector.selectAll("rect")
+            // Set the transform to force the scaleY
+            selector.attr("style", "transform-origin: center; transform: scaleY(-1);");
+
+            var rect = selector.selectAll("rect.frequency-bar")
                 .data(aggregatedData);
 
             rect.enter()
@@ -29,15 +42,13 @@ define([], function() {
                 })
                 .attr("width", function() {
                     return selector.attr("width") / numberOfBars;
-                });
+                })
+                .attr("y", 0)
+                .attr("class", "frequency-bar");
 
             rect.attr("height", function(d) {
                     var rectHeight = yScale(d);
                     return rectHeight > 0 ? rectHeight : 0;
-                })
-                .attr("y", function(d) {
-                    var rectHeight = yScale(d);
-                    return height - (rectHeight > 0 ? rectHeight : 0);
                 });
         };
 
