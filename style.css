@@ -1,0 +1,110 @@
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700);
+html {
+  min-height: 100%;
+}
+html body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.overlay * {
+  margin: auto;
+}
+.overlay h1 {
+  text-align: center;
+}
+.pullout-icon {
+  position: absolute;
+  top: 5;
+  left: 5;
+  cursor: pointer;
+}
+.pullout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #333333;
+  transition: left 0.5s;
+  overflow-y: auto;
+  text-align: center;
+}
+.pullout.hidden {
+  left: calc(-260px);
+}
+.pullout .container {
+  margin: 10px;
+}
+.pullout h4 {
+  margin: 0;
+}
+.pullout ul {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+.pullout ul li {
+  margin: 0.2em 0;
+  list-style: none;
+}
+.pullout ul li .file-name {
+  display: inline-block;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  width: calc(90%);
+}
+.pullout ul li .file-remove {
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+  width: 10px;
+}
+.pullout .close {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+.pullout .close a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #000000;
+}
+.pullout .close a:visited,
+.pullout .close a:active {
+  color: #000000;
+}
+.pullout .drag-drop-message {
+  margin: 2em 0;
+  font-size: 0.8em;
+}
+svg path {
+  stroke: white;
+  stroke-width: 2;
+  fill: none;
+}
+svg .frequency rect {
+  fill: white;
+}
+svg .frequency rect.background {
+  fill: none;
+  stroke: none;
+}
+svg.light path {
+  stroke: black;
+}
+svg.light .frequency rect.frequency-bar {
+  fill: black;
+}
