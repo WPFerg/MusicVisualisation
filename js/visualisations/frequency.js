@@ -30,7 +30,7 @@ define([], function() {
             var aggregatedData = aggregate(data);
 
             // Set the transform to force the scaleY
-            selector.attr("style", "transform-origin: center; transform: scaleY(-1);");
+            selector.attr("style", "transform-origin: " + (width / 2) + "px " + (height / 2) + "px; transform: scaleY(-1);");
 
             var rect = selector.selectAll("rect.frequency-bar")
                 .data(aggregatedData);
