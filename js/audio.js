@@ -30,11 +30,11 @@ define([], function() {
             audioElement = document.createElement('audio');
             audioElement.src = URL.createObjectURL(file);
             sourceNode = ctx.createMediaElementSource(audioElement);
-            sourceNode.onended = audio.stop;
             sourceNode.connect(analyser);
 
             audioElement.addEventListener('playing', resolve);
             audioElement.addEventListener('error', reject);
+            audioElement.addEventListener('ended', audio.stop);
 
             audioElement.play();
         });
