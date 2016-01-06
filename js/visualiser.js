@@ -1,5 +1,7 @@
 define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "visualisations/background"],
     function(d3, audio, waveform, frequency, background) {
+        var noop = function() {};
+
         var waveformArray = new Float32Array(audio.fftSize);
         var frequencyArray = new Float32Array(audio.frequencyBinCount);
 
@@ -43,11 +45,16 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
                 backgroundVisualiser(frequencyArray);
                 waveformVisualiser(waveformArray);
 
+                visualiser.updateProgress(audio.getProgress());
+                visualiser.updateDuration(audio.getDuration());
+
                 requestAnimationFrame(visualiser.visualise);
             }
         };
 
         visualiser.onResize = initialise;
+        visualiser.updateDuration = noop;
+        visualiser.updateProgress = noop;
 
         initialise();
 

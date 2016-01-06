@@ -59,6 +59,15 @@ html body {
   margin: 0.2em 0;
   list-style: none;
 }
+.pullout ul li:first-child {
+  background-color: #ADD1FF;
+  font-size: 1.2em;
+}
+.pullout ul li:first-child:before {
+  content: "Now Playing";
+  font-size: 0.7em;
+  text-align: center;
+}
 .pullout ul li .file-name {
   display: inline-block;
   white-space: nowrap;
@@ -89,6 +98,9 @@ html body {
 .pullout .drag-drop-message {
   margin: 2em 0;
   font-size: 0.8em;
+}
+.pullout .play-pause {
+  cursor: pointer;
 }
 svg path {
   stroke: white;

@@ -35,6 +35,9 @@ define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualis
                 viewModel.loadingSongContents(false);
                 viewModel.playingSong(true);
                 visualiser.visualise();
+
+                // On play/pause, restart the visualiser.
+                audio.bindPlayingListener(visualiser.visualise);
             },
             function() {
                 viewModel.errorDecoding.call(viewModel);
@@ -54,6 +57,21 @@ define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualis
         fileManipulator.onUpdate();
         fileManipulator.playFile();
     };
+
+    function initialise() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'BlackVortex.mp3');
+        xhr.responseType = 'blob';
+        xhr.onload = function(e) {
+            var blob = this.response;
+            blob.name = 'Black Vortex by Kevin Macleod.mp3';
+            fileManipulator.add(blob);
+        };
+
+        xhr.send();
+    };
+
+    initialise();
 
     return fileManipulator;
 });
