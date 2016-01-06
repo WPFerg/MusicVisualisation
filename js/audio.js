@@ -24,6 +24,16 @@ define([], function() {
         }
     };
 
+    audio.playPause = function() {
+        if (audioElement) {
+            if (audioElement.paused) {
+                audioElement.play();
+            } else {
+                audioElement.pause();
+            }
+        }
+    };
+
     audio.playFile = function(file) {
         audio.stop();
         return new Promise(function(resolve, reject) {
@@ -40,8 +50,12 @@ define([], function() {
         });
     };
 
+    audio.bindPlayingListener = function(callback) {
+        audioElement.addEventListener('playing', callback);
+    };
+
     audio.isPlaying = function() {
-        return !!sourceNode;
+        return !!sourceNode && (audioElement && !audioElement.paused);
     };
 
     audio.getFloatWaveform = function(floatArray) {

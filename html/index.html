@@ -37,7 +37,7 @@
         <div class="pullout-icon" data-bind="click: togglePullout">
             open
         </div>
-        <section class="pullout" data-bind="css: {hidden: !pulloutVisible()}">
+        <section class="pullout" data-bind="css: {hidden: !pulloutVisible() && !dragging()}">
             <div class="close">
                 <a data-bind="click: togglePullout">x</a>
             </div>
@@ -60,6 +60,15 @@
                     <span data-bind="text: playProgress"></span>
                     /
                     <span data-bind="text: playDuration"></span>
+                    |
+                    <span data-bind="click: playPause" class="play-pause">
+                        <span data-bind="visible: !playingSong()">
+                            Play
+                        </span>
+                        <span data-bind="visible: playingSong">
+                            Pause
+                        </span>
+                    </span>
                 </div>
 
                 <div class="drag-drop-message">

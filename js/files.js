@@ -35,6 +35,9 @@ define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualis
                 viewModel.loadingSongContents(false);
                 viewModel.playingSong(true);
                 visualiser.visualise();
+
+                // On play/pause, restart the visualiser.
+                audio.bindPlayingListener(visualiser.visualise);
             },
             function() {
                 viewModel.errorDecoding.call(viewModel);

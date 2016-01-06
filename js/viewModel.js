@@ -10,6 +10,8 @@ define(["knockout"], function(ko) {
 
         this.playProgress = ko.observable("0:00");
         this.playDuration = ko.observable("0:00");
+        this.onPlayPause = noop;
+        this.isPlaying = noop;
 
         this.dragging = ko.observable(false);
         this.loadingSongContents = ko.observable(false);
@@ -84,6 +86,11 @@ define(["knockout"], function(ko) {
 
     ViewModel.prototype.setDuration = function(time) {
         this.playDuration(timeFormat(time));
+    };
+
+    ViewModel.prototype.playPause = function() {
+        this.onPlayPause();
+        this.playingSong(this.isPlaying());
     };
 
     return new ViewModel();

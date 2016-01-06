@@ -3,6 +3,8 @@ require(["knockout", "viewModel", "audio", "files", "visualiser"], function(ko, 
     // Link up viewModel with audio/visualiser
     viewModel.onFiles = files.add;
     viewModel.onRemoveFile = files.remove;
+    viewModel.onPlayPause = audio.playPause;
+    viewModel.isPlaying = audio.isPlaying;
     audio.onEnded = files.onEnded;
 
     visualiser.updateDuration = viewModel.setDuration.bind(viewModel);
