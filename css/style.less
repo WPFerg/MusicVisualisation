@@ -71,6 +71,17 @@ html {
             margin: 0.2em 0;
             list-style: none;
 
+            &:first-child {
+                background-color: #ADD1FF;
+                font-size: 1.2em;
+
+                &:before {
+                    content: "Now Playing";
+                    font-size: 0.7em;
+                    text-align: center;
+                }
+            }
+
             .file-name {
                 display: inline-block;
                 white-space: nowrap;
