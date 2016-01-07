@@ -79,8 +79,8 @@
         <svg id="svg">
             <defs>
                 <linearGradient id="freq-gradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-opacity="0.7" />
-                    <stop offset="100%" stop-opacity="0.4" />
+                    <stop offset="0%" stop-opacity="1" />
+                    <stop offset="100%" stop-opacity="0.6" />
                 </linearGradient>
                 <linearGradient id="waveform-gradient" x1="0" x2="0" y1="0" y2="1">
                     <stop offset="0%" stop-opacity="0.4" />
@@ -104,9 +104,16 @@
                             <stop offset="100%" stop-opacity="0.2" stop-color="black" />
                         </linearGradient>
                 </mask>
+                <mask id="frequency-mask">
+                    <rect x="0" y="0" fill="black" />
+                    <g class="frequency">
+                    </g>
+                </mask>
             </defs>
-            <g class="background" mask="url(#vignette)" filter="url(#background-lighting)"><rect></rect></g>
-            <g class="frequency"></g>
+            <g class="background" mask="url(#vignette)"><rect></rect></g>
+            <g>
+                <rect x="0" y="0" class="frequency-masked" mask="url(#frequency-mask)" fill="black">
+            </g>
             <g class="waveform"><path></path></g>
         </svg>
     </body>

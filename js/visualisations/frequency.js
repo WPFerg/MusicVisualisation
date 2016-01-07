@@ -18,7 +18,7 @@ define([], function() {
 
         // Add a transparent rect so scaleY scales the appropriate height
         selector.append("rect")
-            .attr("class", "background")
+            .attr("class", "frequency-background")
             .attr({
                 x: 0,
                 y: 0,

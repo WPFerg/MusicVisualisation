@@ -38,6 +38,21 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
             });
 
 
+            // Set up filter rects width/height
+            svg.selectAll("#vignette rect").attr({
+                x: 0,
+                y: 0,
+                width: width,
+                height: height
+            });
+
+            svg.select(".frequency-masked").attr({
+                x: 0,
+                y: 0,
+                width: width,
+                height: Math.floor(height / 2)
+            });
+
             // Recreate the visualisers on each resize (no major difference to calling a resize funct)
             waveformVisualiser = waveform(svg.select(".waveform"), audio.fftSize);
             frequencyVisualiser = frequency(svg.select(".frequency"));
