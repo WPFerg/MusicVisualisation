@@ -125,6 +125,11 @@ html {
 }
 
 svg {
+
+    &#svg {
+        background-color: #000000;
+    }
+
     path {
         stroke: white;
         stroke-width: 2;
@@ -132,7 +137,10 @@ svg {
     }
     .frequency {
         rect {
-            fill: white;
+            &.frequency-bar {
+                fill: black;
+                fill: url(#freq-gradient) !important;
+            }
 
             &.background {
                 fill: none;
@@ -144,6 +152,7 @@ svg {
     &.light {
         path {
             stroke: black;
+            stroke: url(#waveform-gradient);
         }
         .frequency {
             rect {

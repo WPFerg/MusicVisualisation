@@ -77,7 +77,35 @@
             </div>
         </section>
         <svg id="svg">
-            <g class="background"><rect></rect></g>
+            <defs>
+                <linearGradient id="freq-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-opacity="0.7" />
+                    <stop offset="100%" stop-opacity="0.4" />
+                </linearGradient>
+                <linearGradient id="waveform-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-opacity="0.4" />
+                    <stop offset="50%" stop-opacity="0.7" />
+                    <stop offset="100%" stop-opacity="0.4" />
+                </linearGradient>
+                <mask id="vignette">
+                        <rect fill="white" />
+                        <rect fill="url(#x-vign)" />
+                        <rect fill="url(#y-vign)" />
+                        <linearGradient x1="0" x2="1" y1="0" y2="0" id="x-vign">
+                            <stop offset="0%" stop-opacity="0.2" stop-color="black" />
+                            <stop offset="30%" stop-opacity="0" stop-color="black" />
+                            <stop offset="70%" stop-opacity="0" stop-color="black" />
+                            <stop offset="100%" stop-opacity="0.2" stop-color="black" />
+                        </linearGradient>
+                        <linearGradient x1="0" x2="0" y1="0" y2="1" id="y-vign">
+                            <stop offset="0%" stop-opacity="0.2" stop-color="black" />
+                            <stop offset="30%" stop-opacity="0" stop-color="black" />
+                            <stop offset="70%" stop-opacity="0" stop-color="black" />
+                            <stop offset="100%" stop-opacity="0.2" stop-color="black" />
+                        </linearGradient>
+                </mask>
+            </defs>
+            <g class="background" mask="url(#vignette)" filter="url(#background-lighting)"><rect></rect></g>
             <g class="frequency"></g>
             <g class="waveform"><path></path></g>
         </svg>
