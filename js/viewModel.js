@@ -1,5 +1,6 @@
 'use strict';
 let ko = require('knockout');
+let visualiserWindow = require('electron').remote.getCurrentWindow();
 
 var noop = function(){};
 
@@ -94,6 +95,22 @@ ViewModel.prototype.playPause = function() {
     this.onPlayPause();
     this.playingSong(this.isPlaying());
 };
+
+ViewModel.prototype.minimise = function() {
+    visualiserWindow.minimize();
+}
+
+ViewModel.prototype.maximise = function() {
+    if (!visualiserWindow.isMaximized()) {
+        visualiserWindow.maximize();
+    } else {
+        visualiserWindow.restore();
+    }
+}
+
+ViewModel.prototype.close = function() {
+    visualiserWindow.close();
+}
 
 module.exports = new ViewModel();
 

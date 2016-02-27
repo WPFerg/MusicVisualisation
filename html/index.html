@@ -4,6 +4,14 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <section class="titlebar">
+            Music Visualiser
+        </section>
+        <section class="toolbar">
+            <a class="minimise" data-bind="click: minimise">_</a>
+            <a class="maximise" data-bind="click: maximise">&#9633;</a>
+            <a class="close" data-bind="click: close">x</a>
+        </section>
         <section class="overlay" data-bind="visible: !playingSong()">
             <h1 data-bind="visible: !dragging() && !loadingSongContents()">
                 Drag MP3 Files here!
