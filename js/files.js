@@ -1,4 +1,4 @@
-define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualiser) {
+module.exports = function(viewModel, audio, visualiser) {
 
     var _files = [];
     var _playingFile = null;
@@ -59,4 +59,4 @@ define(["viewModel", "audio", "visualiser"], function(viewModel, audio, visualis
     };
 
     return fileManipulator;
-});
+};

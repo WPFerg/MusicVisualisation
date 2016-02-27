@@ -1,0 +1,25 @@
+{
+  "name": "music-vis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^3.5.16",
+    "electron-prebuilt": "^0.36.9",
+    "knockout": "^3.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WPFerg/MusicVisualisation.git"
+  },
+  "author": "WPFerg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WPFerg/MusicVisualisation/issues"
+  },
+  "homepage": "https://github.com/WPFerg/MusicVisualisation#readme"
+}

@@ -1,5 +1,10 @@
-define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "visualisations/background"],
-    function(d3, audio, waveform, frequency, background) {
+'use strict';
+let d3 = require('d3');
+let frequency = require('./visualisations/frequency');
+let waveform = require('./visualisations/waveform');
+let background = require('./visualisations/background');
+
+module.exports = function(audio) {
         var noop = function() {};
 
         var waveformArray = new Float32Array(audio.fftSize);
@@ -82,4 +87,4 @@ define(["d3", "audio", "visualisations/waveform", "visualisations/frequency", "v
         initialise();
 
         return visualiser;
-});
+};
