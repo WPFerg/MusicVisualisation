@@ -19,6 +19,8 @@ var ViewModel = function ViewModel() {
 
     this.dragging = ko.observable(false);
     this.searching = ko.observable(false);
+    this.lastFoundFile = ko.observable(null);
+
     this.loadingSongContents = ko.observable(false);
     this.errorText = ko.observable();
     this.fileList = ko.observableArray([]);
@@ -28,6 +30,7 @@ var ViewModel = function ViewModel() {
     this.pulloutVisible = ko.observable(true);
 
     ipc.on('file-search-results', this.onSearchFinished.bind(this));
+    ipc.on('file-search-progress', this.onSearchProgress.bind(this));
 };
 
 ViewModel.prototype.onDrag = function(event) {
@@ -52,8 +55,13 @@ ViewModel.prototype.onDrop = function(event) {
 
 ViewModel.prototype.onSearchFinished = function(event, results) {
     this.searching(false);
+    this.lastFoundFile(null);
     this.files(this.files().concat(results));
     this.onFiles(results);
+}
+
+ViewModel.prototype.onSearchProgress = function(event, result) {
+    this.lastFoundFile(result);
 }
 
 ViewModel.prototype.reset = function() {

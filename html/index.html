@@ -25,6 +25,8 @@
             <h1 data-bind="visible: searching">
                 Hold on, we're searching for files.
             </h1>
+            <h1 data-bind="visible: lastFoundFile, text: lastFoundFile">
+            </h1>
             <h1 data-bind="visible: errorText, text: errorText">
                 There's been an error.
             </h1>

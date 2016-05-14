@@ -29,7 +29,7 @@ class FileSearcher {
                     promises.push(this._statFile(pathToFile).then(stats => {
                         if (stats.isDirectory()) {
                             folders.push(pathToFile);
-                        } else if (stats.isFile() && pathToFile.indexOf(type) !== -1) {
+                        } else if (stats.isFile() && pathToFile.toLowerCase().match(type)) {
                             this.renderer.send('file-search-progress', pathToFile);
                             this.results.push(pathToFile);
                         }
@@ -85,7 +85,7 @@ class FileSearcher {
 ipcMain.on('file-search', (event, path) => {
     console.log('file search started for path %s', path);
     let searcher = new FileSearcher(event.sender);
-    searcher.startScan(path, '.mp3')
+    searcher.startScan(path, /\.(mp3|wav|ogg)/)
         .then((files) => event.sender.send('file-search-results', files))
         .catch((e) => event.sender.send('file-search-error', e));
 });
