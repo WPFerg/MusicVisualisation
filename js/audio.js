@@ -17,7 +17,6 @@ audio.stop = function() {
         sourceNode.disconnect();
         sourceNode = null;
         audioElement.pause();
-        URL.revokeObjectURL(audioElement.src);
         audioElement = null;
         audio.onEnded();
     }
@@ -37,7 +36,7 @@ audio.playFile = function(file) {
     audio.stop();
     return new Promise(function(resolve, reject) {
         audioElement = document.createElement('audio');
-        audioElement.src = URL.createObjectURL(file);
+        audioElement.src = file;
         sourceNode = ctx.createMediaElementSource(audioElement);
         sourceNode.connect(analyser);
 

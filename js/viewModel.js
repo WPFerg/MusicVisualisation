@@ -1,6 +1,7 @@
 'use strict';
 let ko = require('knockout');
 let visualiserWindow = require('electron').remote.getCurrentWindow();
+let ipc = require('ipc-renderer');
 
 var noop = function(){};
 
@@ -17,6 +18,7 @@ var ViewModel = function ViewModel() {
     this.isPlaying = noop;
 
     this.dragging = ko.observable(false);
+    this.searching = ko.observable(false);
     this.loadingSongContents = ko.observable(false);
     this.errorText = ko.observable();
     this.fileList = ko.observableArray([]);
@@ -24,6 +26,8 @@ var ViewModel = function ViewModel() {
     this.onRemoveFile = noop;
 
     this.pulloutVisible = ko.observable(true);
+
+    ipc.on('file-search-results', this.onSearchFinished.bind(this));
 };
 
 ViewModel.prototype.onDrag = function(event) {
@@ -37,17 +41,20 @@ ViewModel.prototype.onDrag = function(event) {
 ViewModel.prototype.onDrop = function(event) {
     event.preventDefault();
     var dtFiles = event.dataTransfer.files;
+    console.log(dtFiles);
     var files = [];
     for (var i = 0; i < dtFiles.length; i++) {
-        files.push(dtFiles[i]);
+        ipc.send('file-search', dtFiles[0].path);
     }
     this.dragging(false);
-    if (files.length) {
-        this.files(files);
-        this.loadingSongContents(true);
-        this.onFiles(files);
-    }
+    this.searching(true);
 };
+
+ViewModel.prototype.onSearchFinished = function(event, results) {
+    this.searching(false);
+    this.files(this.files().concat(results));
+    this.onFiles(results);
+}
 
 ViewModel.prototype.reset = function() {
     this.errorText("");
@@ -57,7 +64,8 @@ ViewModel.prototype.reset = function() {
 
 ViewModel.prototype.listFiles = function() {
     var fileNames = this.files().map(function(file) {
-        var dotSeperatedChunks = file.name.split(".");
+        var folderSeparated = file.split(/(\\|\/)/g);
+        var dotSeperatedChunks = folderSeparated[folderSeparated.length - 1].split(".");
         var fileExtRemovedChunks = dotSeperatedChunks.slice(0, dotSeperatedChunks.length - 1);
         return fileExtRemovedChunks.join(".");
     });

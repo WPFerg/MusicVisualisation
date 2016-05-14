@@ -30,7 +30,6 @@ class FileSearcher {
                         if (stats.isDirectory()) {
                             folders.push(pathToFile);
                         } else if (stats.isFile() && pathToFile.indexOf(type) !== -1) {
-                            console.log('progress:', pathToFile);
                             this.renderer.send('file-search-progress', pathToFile);
                             this.results.push(pathToFile);
                         }
@@ -68,12 +67,27 @@ class FileSearcher {
         });
     }
 
+    startScan(pathToTarget, type) {
+        return new Promise((resolve, reject) => {
+            this._statFile(pathToTarget).then((stats) => {
+                if(stats.isFile()) {
+                    resolve([pathToTarget]);
+                } else {
+                    this.scanForFiles(pathToTarget, type)
+                        .then((files) => resolve(files));
+                }
+            });
+        });
+    }
+
 }
 
 ipcMain.on('file-search', (event, path) => {
     console.log('file search started for path %s', path);
     let searcher = new FileSearcher(event.sender);
-    searcher.scanForFiles(path, '.mp3').then(files => event.sender.send('file-search-results', files));
+    searcher.startScan(path, '.mp3')
+        .then((files) => event.sender.send('file-search-results', files))
+        .catch((e) => event.sender.send('file-search-error', e));
 });
 
 module.exports = FileSearcher;
