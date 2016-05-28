@@ -6,7 +6,7 @@ module.exports = function(selector, fftSize) {
 
     var width = selector.attr("width");
     var height = selector.attr("height");
-    var numberOfPoints = Math.ceil(width / 2);
+    var numberOfPoints = Math.ceil(width / 5);
 
     var xScale = d3.scale.linear()
         .range([0, width])
