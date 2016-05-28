@@ -8,9 +8,11 @@ var noop = function(){};
 var ViewModel = function ViewModel() {
     this.files = ko.observableArray([]);
     this.files.subscribe(this.listFiles.bind(this));
+    this.files.subscribe(this.loadPlayingID3.bind(this));
 
     this.playingSong = ko.observable(false);
     this.playingSong.subscribe(this.onPlay.bind(this));
+    this.nowPlaying = ko.observable('');
 
     this.playProgress = ko.observable("0:00");
     this.playDuration = ko.observable("0:00");
@@ -31,6 +33,9 @@ var ViewModel = function ViewModel() {
 
     ipc.on('file-search-results', this.onSearchFinished.bind(this));
     ipc.on('file-search-progress', this.onSearchProgress.bind(this));
+
+    ipc.on('id3-result', this.onID3Success.bind(this));
+    ipc.on('id3-error', this.onID3Error.bind(this));
 };
 
 ViewModel.prototype.onDrag = function(event) {
@@ -92,6 +97,23 @@ ViewModel.prototype.listFiles = function() {
         return fileExtRemovedChunks.join(".");
     });
     this.fileList(fileNames);
+};
+
+ViewModel.prototype.loadPlayingID3 = function() {
+    const path = this.files()[0];
+    ipc.send('id3-parse', path);
+};
+
+ViewModel.prototype.onID3Success = function(event, tags) {
+    if (tags.title != null && tags.artist != null) {
+        this.nowPlaying(tags.title + ' \u2013 ' + tags.artist);
+    } else {
+        this.onID3Error();
+    }
+};
+
+ViewModel.prototype.onID3Error = function() {
+    this.nowPlaying(this.fileList()[0]);
 };
 
 ViewModel.prototype.errorDecoding = function() {

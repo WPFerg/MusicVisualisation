@@ -5,7 +5,8 @@
     </head>
     <body>
         <section class="titlebar">
-            Music Visualiser
+            <span data-bind="visible: !playingSong()">Music Visualiser</span>
+            <span data-bind="visible: playingSong, text: nowPlaying"></span>
         </section>
         <section class="toolbar">
             <a class="minimise" data-bind="click: minimise">_</a>
@@ -30,12 +31,6 @@
             <h1 data-bind="visible: errorText, text: errorText">
                 There's been an error.
             </h1>
-            <div data-bind="visible: fileList().length > 0">
-                <strong>Files:</strong>
-                <ul data-bind="foreach: fileList()">
-                    <li data-bind="text: $data"></li>
-                </ul>
-            </div>
         </section>
         <div class="pullout-icon" data-bind="click: togglePullout">
             open
