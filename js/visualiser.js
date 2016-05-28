@@ -34,22 +34,6 @@ module.exports = function(audio) {
 
             svg.select(".background").attr("width", width);
             svg.select(".background").attr("height", height);
-            // Set up filter rects width/height
-            svg.selectAll("#vignette rect").attr({
-                x: 0,
-                y: 0,
-                width: width,
-                height: height
-            });
-
-
-            // Set up filter rects width/height
-            svg.selectAll("#vignette rect").attr({
-                x: 0,
-                y: 0,
-                width: width,
-                height: height
-            });
 
             svg.select(".frequency-masked").attr({
                 x: 0,

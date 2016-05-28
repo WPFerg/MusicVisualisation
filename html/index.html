@@ -85,35 +85,13 @@
                     <stop offset="0%" stop-opacity="1" />
                     <stop offset="100%" stop-opacity="0.6" />
                 </linearGradient>
-                <linearGradient id="waveform-gradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-opacity="0.4" />
-                    <stop offset="50%" stop-opacity="0.7" />
-                    <stop offset="100%" stop-opacity="0.4" />
-                </linearGradient>
-                <mask id="vignette">
-                        <rect fill="white" />
-                        <rect fill="url(#x-vign)" />
-                        <rect fill="url(#y-vign)" />
-                        <linearGradient x1="0" x2="1" y1="0" y2="0" id="x-vign">
-                            <stop offset="0%" stop-opacity="0.2" stop-color="black" />
-                            <stop offset="30%" stop-opacity="0" stop-color="black" />
-                            <stop offset="70%" stop-opacity="0" stop-color="black" />
-                            <stop offset="100%" stop-opacity="0.2" stop-color="black" />
-                        </linearGradient>
-                        <linearGradient x1="0" x2="0" y1="0" y2="1" id="y-vign">
-                            <stop offset="0%" stop-opacity="0.2" stop-color="black" />
-                            <stop offset="30%" stop-opacity="0" stop-color="black" />
-                            <stop offset="70%" stop-opacity="0" stop-color="black" />
-                            <stop offset="100%" stop-opacity="0.2" stop-color="black" />
-                        </linearGradient>
-                </mask>
                 <mask id="frequency-mask">
                     <rect x="0" y="0" fill="black" />
                     <g class="frequency">
                     </g>
                 </mask>
             </defs>
-            <g class="background" mask="url(#vignette)"><rect></rect></g>
+            <g class="background"><rect></rect></g>
             <g>
                 <rect x="0" y="0" class="frequency-masked" mask="url(#frequency-mask)" fill="black">
             </g>
