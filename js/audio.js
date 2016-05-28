@@ -35,16 +35,18 @@ audio.playPause = function() {
 audio.playFile = function(file) {
     audio.stop();
     return new Promise(function(resolve, reject) {
-        audioElement = document.createElement('audio');
-        audioElement.src = file;
-        sourceNode = ctx.createMediaElementSource(audioElement);
-        sourceNode.connect(analyser);
+        if (!audioElement) {
+            audioElement = document.createElement('audio');
+            audioElement.src = file;
+            sourceNode = ctx.createMediaElementSource(audioElement);
+            sourceNode.connect(analyser);
 
-        audioElement.addEventListener('playing', resolve);
-        audioElement.addEventListener('error', reject);
-        audioElement.addEventListener('ended', audio.stop);
+            audioElement.addEventListener('playing', resolve);
+            audioElement.addEventListener('error', reject);
+            audioElement.addEventListener('ended', audio.stop);
 
-        audioElement.play();
+            audioElement.play();
+        }
     });
 };
 
