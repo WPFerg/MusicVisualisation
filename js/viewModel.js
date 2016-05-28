@@ -44,13 +44,27 @@ ViewModel.prototype.onDrag = function(event) {
 ViewModel.prototype.onDrop = function(event) {
     event.preventDefault();
     var dtFiles = event.dataTransfer.files;
-    console.log(dtFiles);
     var files = [];
     for (var i = 0; i < dtFiles.length; i++) {
-        ipc.send('file-search', dtFiles[0].path);
+        this.fileSearch(dtFiles[i]);
     }
     this.dragging(false);
     this.searching(true);
+};
+
+ViewModel.prototype.queueFileSearches = function(files) {
+    this.fileSearch(files[0]).then(() => {
+        if (files.length > 1) {
+            this.queueFileSearches(files.slice(1));
+        }
+    });
+};
+
+ViewModel.prototype.fileSearch = function(file) {
+    return new Promise((resolve, reject) => {
+        ipc.send('file-search', file.path);
+        ipc.once('file-search-results', () => resolve());
+    });
 };
 
 ViewModel.prototype.onSearchFinished = function(event, results) {
