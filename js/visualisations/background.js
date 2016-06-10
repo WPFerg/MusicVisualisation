@@ -50,6 +50,7 @@ function debouncer(callback, intervalSize) {
             return;
         }
         timeout = window.setTimeout(function() {
+            clearInterval(timeout);
             timeout = null;
         }, intervalSize);
         callback.apply(this, arguments);

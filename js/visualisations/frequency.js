@@ -44,7 +44,7 @@ module.exports = function(selector) {
                 return xScale(i);
             })
             .attr("width", function() {
-                return selector.attr("width") / numberOfBars;
+                return width / numberOfBars;
             })
             .attr("y", 0)
             .attr("class", "frequency-bar");

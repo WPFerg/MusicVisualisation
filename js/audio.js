@@ -16,6 +16,7 @@ audio.stop = function() {
     if (sourceNode) {
         sourceNode.disconnect();
         sourceNode = null;
+        audio.releasePlayingListeners();
         audioElement.pause();
         audioElement = null;
         audio.onEnded();
@@ -41,9 +42,17 @@ audio.playFile = function(file) {
             sourceNode = ctx.createMediaElementSource(audioElement);
             sourceNode.connect(analyser);
 
-            audioElement.addEventListener('playing', resolve);
-            audioElement.addEventListener('error', reject);
-            audioElement.addEventListener('ended', audio.stop);
+            const once = (target, event, callback) => {
+                const wrappedCallback = () => {
+                    target.removeEventListener(event, wrappedCallback);
+                    callback();
+                };
+
+                target.addEventListener(event, wrappedCallback);
+            };
+            once(audioElement, 'playing', resolve);
+            once(audioElement, 'error', reject);
+            once(audioElement, 'ended', audio.stop);
 
             audioElement.play();
         }
@@ -51,7 +60,14 @@ audio.playFile = function(file) {
 };
 
 audio.bindPlayingListener = function(callback) {
+    audio._callbacks = audio._callbacks ? audio._callbacks.concat(callback) : [callback];
     audioElement.addEventListener('playing', callback);
+};
+
+audio.releasePlayingListeners = function() {
+    audio._callbacks.forEach((callback) => {
+        audioElement.removeEventListener('playing', callback);
+    });
 };
 
 audio.isPlaying = function() {
