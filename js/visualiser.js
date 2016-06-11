@@ -16,40 +16,36 @@ module.exports = function(audio) {
         var backgroundVisualiser;
 
         function initialise() {
-            var svg = d3.select("#svg");
 
             var width = window.innerWidth || document.body.offsetWidth;
             var height = window.innerHeight || document.body.offsetHeight;
 
-            svg.attr("width", width);
-            svg.attr("height", height);
-
-            d3.select(".waveform").attr("width", width);
-            d3.select(".waveform").attr("height", height/2);
             d3.select(".waveform")
+                .attr({
+                    width: width,
+                    height: height / 2
+                })
                 .style({
                     position: 'absolute',
                     top: height / 2,
                     left: 0
                 });
 
-            svg.select(".frequency").attr("width", width);
-            svg.select(".frequency").attr("height", height/2);
-
-            svg.select(".background").attr("width", width);
-            svg.select(".background").attr("height", height);
-
-            svg.select(".frequency-masked").attr({
-                x: 0,
-                y: 0,
-                width: width,
-                height: Math.floor(height / 2)
-            });
+            d3.select(".frequency")
+                .attr({
+                    width: width,
+                    height: height / 2
+                })
+                .style({
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                });
 
             // Recreate the visualisers on each resize (no major difference to calling a resize funct)
             waveformVisualiser = waveform(d3.select(".waveform"), audio.fftSize);
-            frequencyVisualiser = frequency(svg.select(".frequency"));
-            backgroundVisualiser = background(svg.select(".background"), svg);
+            frequencyVisualiser = frequency(d3.select(".frequency"));
+            backgroundVisualiser = background(d3.select('body'));
         }
 
         visualiser.visualise = function() {

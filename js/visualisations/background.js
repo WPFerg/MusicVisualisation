@@ -2,7 +2,7 @@
 
 let d3 = require('d3');
 
-module.exports = function(selector, svg) {
+module.exports = function(selector) {
     var scale = d3.scale.linear()
         .range([20, 90])
         .domain([-256, 0]);
@@ -10,15 +10,11 @@ module.exports = function(selector, svg) {
         .range([250, 200])
         .domain([-120, -50]);
 
-    selector.select("rect")
-        .attr("width", selector.attr("width"))
-        .attr("height", selector.attr("height"));
-
     var lightModeDebouncer = debouncer(function(h, s, l) {
         if (l > 50) {
-            svg.attr("class", "light");
+            selector.attr("class", "light");
         } else {
-            svg.attr("class", "dark");
+            selector.attr("class", "dark");
         }
     }, 500);
 
@@ -27,8 +23,7 @@ module.exports = function(selector, svg) {
         var h = reduceArray(data.slice(0, Math.floor(data.length / 3)));
         var l = reduceArray(data.slice(data));
 
-        selector.select("rect")
-            .attr("fill", "hsl(" + (hueScale(h)) + ", "
+        selector.style("background-color", "hsl(" + (hueScale(h)) + ", "
                 + scale(s) + "%,"
                 + scale(l) + "%)");
 

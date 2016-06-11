@@ -7,13 +7,14 @@ module.exports = function(selector) {
     var width = selector.attr("width");
     var height = selector.attr("height");
     const numberOfBars = Math.floor(width / 5);
+    const context = selector.node().getContext('2d');
 
     var xScale = d3.scale.linear()
-        .range([0, selector.attr("width")])
+        .range([0, width])
         .domain([0, numberOfBars]);
 
     var yScale = d3.scale.linear()
-        .range([0, selector.attr("height")])
+        .range([0, height])
         .domain([-128, 0]);
 
     // Remove any rects already in the selector
@@ -32,27 +33,18 @@ module.exports = function(selector) {
     return function(data) {
         var aggregatedData = aggregate(data);
 
-        // Set the transform to force the scaleY
-        selector.attr("style", "transform-origin: " + (width / 2) + "px " + (height / 2) + "px; transform: scaleY(-1);");
+        context.clearRect(0, 0, width, height);
 
-        var rect = selector.selectAll("rect.frequency-bar")
-            .data(aggregatedData);
-
-        rect.enter()
-            .append("rect")
-            .attr("x", function(d, i) {
-                return xScale(i);
-            })
-            .attr("width", function() {
-                return width / numberOfBars;
-            })
-            .attr("y", 0)
-            .attr("class", "frequency-bar");
-
-        rect.attr("height", function(d) {
-                var rectHeight = yScale(d);
-                return rectHeight > 1 ? rectHeight : 1;
-            });
+        const barWidth = width / numberOfBars;
+        aggregatedData.forEach((d, i) => {
+            const barHeight = yScale(d);
+            const gradient = context.createLinearGradient(0, height - barHeight, 0, height);
+            gradient.addColorStop(0, 'rgba(0, 0, 0, 0.2)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0.5)');
+            context.fillStyle = gradient;
+            context.fillRect(xScale(i), height - barHeight, barWidth, barHeight);
+        });
+        context.fillStyle = null;
     };
 
     // Bucket the data and average them

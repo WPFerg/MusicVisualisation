@@ -18,6 +18,7 @@ html {
     display: flex;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.8);
+    z-index: 8;
 
     * {
         margin: auto;
@@ -33,6 +34,7 @@ html {
     top: 45px;
     left: 5;
     cursor: pointer;
+    z-index: 9;
 }
 
 .pullout {
@@ -126,48 +128,12 @@ html {
     }
 }
 
-svg {
+.waveform {
+    z-index: 2;
+}
 
-    &#svg {
-        background-color: #000000;
-    }
-
-    path {
-        stroke: white;
-        stroke-width: 2;
-        stroke-opacity: 0.7;
-        fill: none;
-    }
-    .frequency {
-        rect {
-            &.frequency-bar {
-                fill: black;
-                fill: url(#freq-gradient) !important;
-            }
-
-            &.frequency-background {
-                fill: #888888;
-                stroke: none;
-            }
-        }
-    }
-
-    &.light {
-        path {
-            stroke: black;
-        }
-        .frequency {
-            rect {
-                &.frequency-bar {
-                    fill: black;
-                }
-
-                &.frequency-background {
-                    fill: #888888;
-                }
-            }
-        }
-    }
+.frequency {
+    z-index: 2;
 }
 
 .titlebar, .toolbar {

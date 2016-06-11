@@ -74,23 +74,7 @@
                 </div>
             </div>
         </section>
-        <svg id="svg">
-            <defs>
-                <linearGradient id="freq-gradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-opacity="1" />
-                    <stop offset="100%" stop-opacity="0.6" />
-                </linearGradient>
-                <mask id="frequency-mask">
-                    <rect x="0" y="0" fill="black" />
-                    <g class="frequency">
-                    </g>
-                </mask>
-            </defs>
-            <g class="background"><rect></rect></g>
-            <g>
-                <rect x="0" y="0" class="frequency-masked" mask="url(#frequency-mask)" fill="black">
-            </g>
-        </svg>
+        <canvas class="frequency"></canvas>
         <canvas class="waveform"></canvas>
         <script>
             require('./js/main');

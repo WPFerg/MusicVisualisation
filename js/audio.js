@@ -42,8 +42,8 @@ audio.playFile = function(file) {
             sourceNode = ctx.createMediaElementSource(audioElement);
             sourceNode.connect(analyser);
 
-            const once = (target, event, callback) => {
-                const wrappedCallback = () => {
+            const once = function (target, event, callback) {
+                const wrappedCallback = function () {
                     target.removeEventListener(event, wrappedCallback);
                     callback();
                 };
