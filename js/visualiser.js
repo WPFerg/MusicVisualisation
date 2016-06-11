@@ -49,7 +49,8 @@ module.exports = function(audio) {
         }
 
         visualiser.visualise = function() {
-            if (audio.isPlaying()) {
+            var playing = audio.isPlaying();
+            if (playing) {
                 audio.getFloatWaveform(waveformArray);
                 audio.getFloatFrequency(frequencyArray);
 
@@ -62,8 +63,10 @@ module.exports = function(audio) {
 
                 requestAnimationFrame(visualiser.visualise);
             }
+            visualiser.active = playing;
         };
 
+        visualiser.active = false;
         visualiser.onResize = initialise;
         visualiser.updateDuration = noop;
         visualiser.updateProgress = noop;

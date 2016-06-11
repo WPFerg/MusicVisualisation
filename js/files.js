@@ -34,7 +34,9 @@ module.exports = function(viewModel, audio, visualiser) {
                 _playingFile = _files[0];
                 viewModel.loadingSongContents(false);
                 viewModel.playingSong(true);
-                visualiser.visualise();
+                if (!visualiser.active) {
+                    visualiser.visualise();
+                }
 
                 // On play/pause, restart the visualiser.
                 audio.bindPlayingListener(visualiser.visualise);
