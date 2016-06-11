@@ -24,10 +24,14 @@ module.exports = function(audio) {
             svg.attr("width", width);
             svg.attr("height", height);
 
-            svg.select(".waveform").attr("width", width);
-            svg.select(".waveform").attr("height", height/2);
-            svg.select(".waveform")
-                .attr("transform", "translate(0, " + height / 2 + ")");
+            d3.select(".waveform").attr("width", width);
+            d3.select(".waveform").attr("height", height/2);
+            d3.select(".waveform")
+                .style({
+                    position: 'absolute',
+                    top: height / 2,
+                    left: 0
+                });
 
             svg.select(".frequency").attr("width", width);
             svg.select(".frequency").attr("height", height/2);
@@ -43,7 +47,7 @@ module.exports = function(audio) {
             });
 
             // Recreate the visualisers on each resize (no major difference to calling a resize funct)
-            waveformVisualiser = waveform(svg.select(".waveform"), audio.fftSize);
+            waveformVisualiser = waveform(d3.select(".waveform"), audio.fftSize);
             frequencyVisualiser = frequency(svg.select(".frequency"));
             backgroundVisualiser = background(svg.select(".background"), svg);
         }

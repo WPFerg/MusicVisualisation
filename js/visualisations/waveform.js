@@ -6,7 +6,10 @@ module.exports = function(selector, fftSize) {
 
     var width = selector.attr("width");
     var height = selector.attr("height");
-    var numberOfPoints = Math.ceil(width / 5);
+
+    let context = selector.node().getContext('2d');
+
+    var numberOfPoints = Math.ceil(width / 2);
 
     var xScale = d3.scale.linear()
         .range([0, width])
@@ -16,14 +19,22 @@ module.exports = function(selector, fftSize) {
         .range([height, 0])
         .domain([-1, 1]);
 
-    var line = d3.svg.line()
-        .x(function(d, i) { return xScale(i); })
-        .y(function(d, i) { return yScale(d); });
+    let lastMax;
 
     return function(data) {
-        selector.select("path")
-            .datum(subsample(data))
-            .attr("d", line);
+        context.clearRect(0, yScale(lastMax) - 1, width, yScale(-lastMax) + 1);
+        lastMax = null;
+        context.moveTo(width / 2, yScale(0));
+        context.beginPath();
+        context.strokeStyle = 'black';
+        subsample(data).forEach((d, i) => {
+            context.lineTo(xScale(i), yScale(d));
+
+            if (!lastMax || lastMax < d) {
+                lastMax = d;
+            }
+        });
+        context.stroke();
     };
 
     function subsample(data) {
